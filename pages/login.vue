@@ -29,7 +29,7 @@ const logIn = async () => {
 </script>
 
 <template>
-  <v-sheet class="p-4" rounded elevation="4">
+  <v-sheet class="pa-4" rounded elevation="4">
     <h2 class="mb-4">Log in</h2>
     <v-form ref="form" validate-on="lazy">
       <v-text-field
