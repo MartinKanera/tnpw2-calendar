@@ -7,17 +7,29 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "prisma:generate": "prisma generate",
+    "prisma:push": "prisma db push",
+    "prisma:dev": "yarn run prisma:generate && yarn run prisma:push",
+    "prisma:init-db": "prisma db push --force-reset && prisma db seed"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
+    "@prisma/client": "^5.12.1",
     "@schedule-x/calendar": "^1.29.1",
     "@schedule-x/theme-default": "^1.29.1",
+    "bcrypt": "^5.1.1",
     "nuxt": "^3.11.1",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5",
+    "prisma": "^5.12.1",
+    "tsx": "^4.7.2",
     "vite-plugin-vuetify": "^2.0.3",
     "vuetify": "^3.5.14"
   }
