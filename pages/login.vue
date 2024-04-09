@@ -3,7 +3,10 @@ import type { VueElement } from 'vue';
 
 definePageMeta({
   layout: "auth",
+  middleware: "guest-only"
 });
+
+const { signIn } = useAuth()
 
 const form = ref<VueElement & { validate: () => Promise<any> } | null>(null);
 const email = ref("");
@@ -24,7 +27,14 @@ const logIn = async () => {
 
   if (!valid) return;
   
-  // TODO Handle
+  try {
+    await signIn('credentials', {
+      email: email.value,
+      password: password.value,
+    });
+  } catch (error) {
+    console.error(error);
+  }
 };
 </script>
 
