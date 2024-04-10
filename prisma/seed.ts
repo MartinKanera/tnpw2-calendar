@@ -7,6 +7,7 @@ async function main() {
         const { id } = await tx.user.create({
             data: {
                 id: "661175cc205e363c09345538",
+                username: 'Matýsek',
                 email: 'kanerma1@uhk.cz',
                 // password: 'heslo123',
                 password: '$2a$12$2duXTF42P0OF6mTn7SEqS.ly8hC6tLv7E2LVt0kj4gnTo.XgKAKMK',

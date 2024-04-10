@@ -26,7 +26,6 @@
     "bcrypt": "^5.1.1",
     "h3-valibot": "^0.0.7",
     "nuxt": "^3.11.1",
-    "valibot": "^0.30.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   },
@@ -36,5 +35,8 @@
     "tsx": "^4.7.2",
     "vite-plugin-vuetify": "^2.0.3",
     "vuetify": "^3.5.14"
+  },
+  "overrides": {
+    "valibot": "^0.28.1"
   }
 }

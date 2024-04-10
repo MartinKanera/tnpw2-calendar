@@ -5745,7 +5745,6 @@ __metadata:
     nuxt: "npm:^3.11.1"
     prisma: "npm:^5.12.1"
     tsx: "npm:^4.7.2"
-    valibot: "npm:^0.30.0"
     vite-plugin-vuetify: "npm:^2.0.3"
     vue: "npm:^3.4.21"
     vue-router: "npm:^4.3.0"
@@ -7826,13 +7825,6 @@ __metadata:
   version: 0.25.0
   resolution: "valibot@npm:0.25.0"
   checksum: 8c48fb60d5201d3062b4c7951491d99fba7009ad17c738ab71f92ed831390a7a3cce145ab7fa671e262e9254c64cb585bdc68f15d140e87548807f78e8c70c40
-  languageName: node
-  linkType: hard
-
-"valibot@npm:^0.30.0":
-  version: 0.30.0
-  resolution: "valibot@npm:0.30.0"
-  checksum: 59a1d4201459dfc7b173a8e2cc1490d03115cf8f2140e9aa176fb1945131e1b37c499acab5e2d6c60684f78995792e24dd5adb87b8e7946bfec3a0c90529f091
   languageName: node
   linkType: hard
 

@@ -1,6 +1,12 @@
-import { string, toTrimmed, email, minLength, objectAsync, toLowerCase } from "valibot";
+import { string, toTrimmed, email, minLength, objectAsync, maxLength, toLowerCase } from "valibot";
 
 export default objectAsync({
+  username: string("This field is required", [
+      toTrimmed(),
+      minLength(3, "Username must be at least 3 characters long."),
+      maxLength(16, "Username must be at most 16 characters long.")
+    ]
+  ),
   email: string("This field is required", [
       toTrimmed(),
       toLowerCase(),

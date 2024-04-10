@@ -20,9 +20,9 @@ export const authOptions: AuthConfig = {
           return null;
         }
 
-        const user = await prisma.user.findFirst({
+        const user = await prisma.user.findUnique({
           where: {
-            email: result.output.email as string,
+            email: result.output.email,
           },
         });
 
@@ -31,7 +31,7 @@ export const authOptions: AuthConfig = {
         }
 
         const passwordValid = await compare(
-          (result.output.password as string).trim(),
+          result.output.password.trim(),
           user.password,
         );
 
