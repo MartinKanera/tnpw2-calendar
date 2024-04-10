@@ -16,6 +16,7 @@ export const authOptions: AuthConfig = {
       authorize: async (credentials) => {
         const result = await safeParseAsync(LogInSchema, credentials);
 
+        // If the credentials are invalid, user is unauthenticated
         if (!result.success) {
           return null;
         }
@@ -26,6 +27,7 @@ export const authOptions: AuthConfig = {
           },
         });
 
+        // If the user does not exist, user is unauthenticated
         if (!user) {
           return null;
         }
@@ -35,10 +37,12 @@ export const authOptions: AuthConfig = {
           user.password,
         );
 
+        // If the password doesn't match, user is unauthenticated
         if (!passwordValid) {
           return null;
         }
 
+        // If the user is authenticated, return the user without the password
         return {
           ...user,
           password: undefined,

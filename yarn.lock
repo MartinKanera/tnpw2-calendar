@@ -1492,6 +1492,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@preact/signals-core@npm:^1.6.0":
+  version: 1.6.0
+  resolution: "@preact/signals-core@npm:1.6.0"
+  checksum: a9d214185d0572f360a7e3d27c7c8a8150c09a37a70d8cce92e4ba6a587f7a08a41bb64621b578d16e12c21d103d69554a4c1ee5762f25ad97bfb5fb2e442521
+  languageName: node
+  linkType: hard
+
+"@preact/signals@npm:^1.2.3":
+  version: 1.2.3
+  resolution: "@preact/signals@npm:1.2.3"
+  dependencies:
+    "@preact/signals-core": "npm:^1.6.0"
+  peerDependencies:
+    preact: 10.x
+  checksum: 21486bcb69b5058dc85975b6a7fb466a78f0a410f6d639335172f81c3af656fec03ad958a19b55fd6ecdfc16de69b8cd86929aafde1d7f2acd919aa99b65973d
+  languageName: node
+  linkType: hard
+
 "@prisma/client@npm:^5.12.1":
   version: 5.12.1
   resolution: "@prisma/client@npm:5.12.1"
@@ -1794,13 +1812,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@schedule-x/calendar@npm:^1.29.1":
-  version: 1.29.1
-  resolution: "@schedule-x/calendar@npm:1.29.1"
+"@schedule-x/calendar@npm:^1.30.1":
+  version: 1.30.1
+  resolution: "@schedule-x/calendar@npm:1.30.1"
   peerDependencies:
     "@preact/signals": ^1.1.5
     preact: ^10.19.2
-  checksum: 6a4bc6b328e8f5af1c77d47c47023b7076177ef375674a47302ab2ade1e55a671763b969ad2dcd464a1a8f6fa8167f870d01a0914920b0b1acf1556fcadcf803
+  checksum: 86dcd9eaf99a14ae40072f073035b11a27a19e0e5c9aa9e7838da785c2976a96057343ab807ecb06ed16c02cd6f9bf30d3b05acd0b61c34d75f9d16e048bce6b
+  languageName: node
+  linkType: hard
+
+"@schedule-x/event-modal@npm:^1.30.1":
+  version: 1.30.1
+  resolution: "@schedule-x/event-modal@npm:1.30.1"
+  peerDependencies:
+    "@preact/signals": ^1.1.5
+    preact: ^10.19.2
+  checksum: b68af6a8da257cf2701a3ce3936dc5edd7edff29842166b595458214259d19eb531a235c00817b52b92d222f194c8cc16de909614ec1cf4526018a0086bdd18a
+  languageName: node
+  linkType: hard
+
+"@schedule-x/shared@npm:^1.30.1":
+  version: 1.30.1
+  resolution: "@schedule-x/shared@npm:1.30.1"
+  checksum: a132f696e0457ddf71f414be0d0fc9870930af3c0e31ca3b652974cd4536964f8d7c85ab568e45752df6f2b56291c28863d53bc7decf298aba345a8434f13199
   languageName: node
   linkType: hard
 
@@ -1808,6 +1843,16 @@ __metadata:
   version: 1.29.1
   resolution: "@schedule-x/theme-default@npm:1.29.1"
   checksum: 44f2960b065119ad12e95bbfbace1b877a0cc8804889ffc7978d4e584e96c101af32eb2e3dc39b54a0921677238666d38811ac0b78ed0359fbf015383230bae8
+  languageName: node
+  linkType: hard
+
+"@schedule-x/vue@npm:^1.27.1":
+  version: 1.27.1
+  resolution: "@schedule-x/vue@npm:1.27.1"
+  peerDependencies:
+    "@schedule-x/calendar": 1.30.1
+    vue: ^3
+  checksum: 7689f6f18b188844036c5a39227c637ab12f3d06fbf2169b3b8a5abda3ef625c0fb603bcafbaf6bd8953dbac8af3e16bd273b28dae86cdce8b6e90859b174607
   languageName: node
   linkType: hard
 
@@ -5736,13 +5781,18 @@ __metadata:
     "@auth/core": "npm:^0.17.0"
     "@hebilicious/authjs-nuxt": "npm:^0.3.5"
     "@mdi/font": "npm:^7.4.47"
+    "@preact/signals": "npm:^1.2.3"
     "@prisma/client": "npm:^5.12.1"
-    "@schedule-x/calendar": "npm:^1.29.1"
+    "@schedule-x/calendar": "npm:^1.30.1"
+    "@schedule-x/event-modal": "npm:^1.30.1"
+    "@schedule-x/shared": "npm:^1.30.1"
     "@schedule-x/theme-default": "npm:^1.29.1"
+    "@schedule-x/vue": "npm:^1.27.1"
     "@types/bcrypt": "npm:^5"
     bcrypt: "npm:^5.1.1"
     h3-valibot: "npm:^0.0.7"
     nuxt: "npm:^3.11.1"
+    preact: "npm:^10.20.2"
     prisma: "npm:^5.12.1"
     tsx: "npm:^4.7.2"
     vite-plugin-vuetify: "npm:^2.0.3"
@@ -6443,6 +6493,13 @@ __metadata:
   version: 10.11.3
   resolution: "preact@npm:10.11.3"
   checksum: 5ecfa9aee951c62510990c031cb2990b90b9493812498e6aa65c9c748ab7161394edcfb7719ae18b894adcb923d11bdab7e81e7e5e084c90f2b849d70f95fa4f
+  languageName: node
+  linkType: hard
+
+"preact@npm:^10.20.2":
+  version: 10.20.2
+  resolution: "preact@npm:10.20.2"
+  checksum: 55b6128906771e33fb789898698e66eb0bdbc8b3303e1bf6c6e8a7d4191d12e476590a8a32e52513a1ac02b94313c3b20e8712bb9bc60fa377f0924cee2da992
   languageName: node
   linkType: hard
 
