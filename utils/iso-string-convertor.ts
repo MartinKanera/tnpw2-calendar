@@ -1,6 +1,6 @@
 import type { Event } from "@prisma/client";
 
-const fromISOString = (dateString: string, isAllDay: boolean): string => {
+export const fromISOString = (dateString: string, isAllDay: boolean): string => {
   const date = new Date(dateString);
   const offset = date.getTimezoneOffset();
   date.setMinutes(date.getMinutes() - offset);
@@ -21,4 +21,8 @@ export const convertEventToCalendarEvent = (event: Event): any => {
     start: fromISOString(event.start.toString(), event.allDay),
     end: fromISOString(event.end.toString(), event.allDay)
   };
+};
+
+export const timeFromISOString = (dateString: string): string => {
+  return fromISOString(dateString, false).split(" ")[1];
 };

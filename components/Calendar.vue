@@ -15,13 +15,7 @@ const { calendarApp } = defineProps<{ calendarApp: CalendarApp }>();
 </template>
 
 <style>
-.sx__time-grid-event {
-  background-color: var(--sx-color-primary-container);
-  color: var(--sx-color-on-primary-container);
-  border-left: 4px solid var(--sx-color-primary);
-}
-
-.sx__time-grid-event-inner {
-  padding: var(--sx-spacing-padding1);
+.sx__date-picker-popup {
+  overflow: auto;
 }
 </style>

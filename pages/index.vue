@@ -13,6 +13,7 @@ definePageMeta({
 });
 
 const isEditDialogOpen = ref(false);
+const isCreateDialogOpen = ref(true);
 const event = ref({} as Omit<Event, 'userId' | 'allDay'>);
 
 const calendarApp = createCalendar({
@@ -60,4 +61,5 @@ const eventDeleted = (eventId: string) => {
 <template>
   <Calendar :calendar-app="calendarApp" />
   <EditDialog v-model="isEditDialogOpen" :event="event" @delete="eventDeleted" />
+  <CreateDialog v-model="isCreateDialogOpen" />
 </template>

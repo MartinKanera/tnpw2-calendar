@@ -15,9 +15,9 @@ const dialogClosed = () => {
 
 <template>
   <v-dialog :model-value="isDialogOpen" @afterLeave="dialogClosed" :persistent="isLoading">
-    <v-container class="fill-height">
+    <v-container class="fill-height overflow-auto">
       <v-row align="center" justify="center">
-        <v-col cols="12" sm="8" md="4">
+        <v-col cols="12" sm="8" lg="6">
           <v-sheet class="pa-4" elevation="4" rounded>
             <slot></slot>
           </v-sheet>
