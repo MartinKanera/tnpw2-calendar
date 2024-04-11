@@ -12,25 +12,13 @@ definePageMeta({
   middleware: "auth",
 });
 
-const modal = ref(false);
+const isEditDialogOpen = ref(false);
 const event = ref({} as Omit<Event, 'userId' | 'allDay'>);
-
-const { data } = useFetch('/api/events', {
-  query: {
-    // Get first day of this month
-    start: new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString(),
-    // Get last day of this month
-    end : new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toISOString(),
-  }
-});
 
 const calendarApp = createCalendar({
   isDark: true,
   views: [viewDay, viewWeek, viewMonthAgenda],
   defaultView: viewWeek.name,
-  // @ts-expect-error
-  // Convert PrismaEvent to CalendarEvent
-  events: data.value?.map(convertEventToCalendarEvent),
   callbacks: {
     onEventClick: (e) => {
       openModal(e as unknown as Event)
@@ -40,6 +28,12 @@ const calendarApp = createCalendar({
       fetchEvents(new Date(start).toISOString(), new Date(end).toISOString());
     }
   }
+});
+
+onMounted(() => {
+  const weekStart = new Date(new Date().setDate(new Date().getDate() - new Date().getDay())).toISOString();
+  const weekEnd = new Date(new Date().setDate(new Date().getDate() + (6 - new Date().getDay()))).toISOString();
+  fetchEvents(weekStart, weekEnd);
 });
 
 const fetchEvents = async (start: string, end: string) => {
@@ -53,28 +47,17 @@ const fetchEvents = async (start: string, end: string) => {
   }
 }
 
-const openModal = (e: Event) => {
-  modal.value = true;
+const openModal = (e: Omit<Event, 'userId' | 'allDay'>) => {
+  isEditDialogOpen.value = true;
   event.value = e;
 }
 
-const closeModal = () => {
-  event.value = {} as Event;
+const eventDeleted = (eventId: string) => {
+  calendarApp.events.remove(eventId);
 }
 </script>
 
 <template>
   <Calendar :calendar-app="calendarApp" />
-  <v-dialog v-model="modal" @vue-unmounted="closeModal">
-    <v-container class="fill-height">
-      <v-row align="center" justify="center">
-        <v-col cols="12" sm="8" md="4">
-          <v-sheet class="pa-4" elevation="4" rounded>
-            <h2 class="mb-4">{{ event.title }}</h2>
-            <v-text-field v-model="event.title" label="Title" />
-          </v-sheet>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-dialog>
+  <EditDialog v-model="isEditDialogOpen" :event="event" @delete="eventDeleted" />
 </template>
