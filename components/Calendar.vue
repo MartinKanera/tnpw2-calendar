@@ -5,20 +5,12 @@ import type { CalendarApp } from '@schedule-x/calendar';
 import '@schedule-x/theme-default/dist/index.css';
 
 const { calendarApp } = defineProps<{ calendarApp: CalendarApp }>();
-const emit = defineEmits<{
-  (e: 'event-clicked', event: Omit<Event, 'allDay' | 'userId'>): void;
-}>();
-
 
 </script>
 
 <template>
   <ClientOnly>
-    <ScheduleXCalendar :calendar-app="calendarApp">
-      <template #timeGridEvent="{ calendarEvent }" >
-        <TimeGridEvent :calendar-event="calendarEvent" @click="() => emit('event-clicked', calendarEvent)" />
-      </template>
-    </ScheduleXCalendar>
+    <ScheduleXCalendar :calendar-app="calendarApp"></ScheduleXCalendar>
   </ClientOnly>
 </template>
 

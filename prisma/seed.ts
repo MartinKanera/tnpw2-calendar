@@ -2,6 +2,27 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+const getISOStringBFromOffset = (
+        { days = 0, hours = 0, minutes = 0 },
+        { constHours, constMinutes }: { constHours?: number, constMinutes?: number } = {}
+    ): string => {
+        const date = new Date();
+        date.setDate(date.getDate() + days);
+        date.setHours(date.getHours() + hours);
+        date.setMinutes(date.getMinutes() + minutes);
+
+        if (constHours) {
+            date.setHours(constHours);
+            date.setMinutes(0);
+        }
+
+        if (constMinutes) {
+            date.setMinutes(constMinutes);
+        }
+
+    return date.toISOString();
+}
+
 async function main() {
     prisma.$transaction(async (tx) => {
         const { id } = await tx.user.create({
@@ -14,33 +35,27 @@ async function main() {
             }
         });
 
-        const multiDateStart = new Date(new Date().setDate(new Date().getDate() - 1)).toISOString();
-        const multiDateEnd = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString();
-
-        const hourBefore = new Date(new Date().setHours(new Date().getHours() - 1)).toISOString();
-        const hourAfter = new Date(new Date().setHours(new Date().getHours() + 1)).toISOString();
-
         await tx.event.createMany({
             data: [
                 {
-                    title: 'All day 1',
+                    title: 'Vacation',
                     userId: id,
-                    start: multiDateStart,
-                    end: multiDateEnd,
-                    allDay: true,
-                },
-                {
-                    title: 'All day 2',
-                    userId: id,
-                    start: multiDateStart,
-                    end: multiDateEnd,
+                    start: getISOStringBFromOffset({ days: -1 }),
+                    end: getISOStringBFromOffset({ days: 1 }),
                     allDay: true,
                 },
                 {
                     title: 'Study',
                     userId: id,
-                    start: hourBefore,
-                    end: hourAfter,
+                    start: getISOStringBFromOffset({}, { constHours: 8 }),
+                    end: getISOStringBFromOffset({}, { constHours: 10 }),
+                    allDay: false,
+                },
+                {
+                    title: 'Meeting',
+                    userId: id,
+                    start: getISOStringBFromOffset({ days: 7 }, { constHours: 15 }),
+                    end: getISOStringBFromOffset({ days: 7 }, { constHours: 17 }),
                     allDay: false,
                 }
             ]

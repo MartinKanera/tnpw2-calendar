@@ -1,8 +1,6 @@
 <script lang="ts" setup>
-import type { Event as PrismaEvent } from '@prisma/client';
-
-type Event = Omit<PrismaEvent, 'allDay' | 'userId'>;
-
+import type { Event } from '@prisma/client';
+import { convertEventToCalendarEvent } from '~/utils/iso-string-convertor';
 import {
   createCalendar,
   viewDay,
@@ -15,34 +13,45 @@ definePageMeta({
 });
 
 const modal = ref(false);
-const event = ref({} as Event);
+const event = ref({} as Omit<Event, 'userId' | 'allDay'>);
+
+const { data } = useFetch('/api/events', {
+  query: {
+    // Get first day of this month
+    start: new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString(),
+    // Get last day of this month
+    end : new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toISOString(),
+  }
+});
 
 const calendarApp = createCalendar({
   isDark: true,
-  selectedDate: '2023-12-19',
   views: [viewDay, viewWeek, viewMonthAgenda],
   defaultView: viewWeek.name,
-  events: [
-    {
-      id: 1,
-      title: 'Event 1',
-      start: '2023-12-19',
-      end: '2023-12-19',
+  // @ts-expect-error
+  // Convert PrismaEvent to CalendarEvent
+  events: data.value?.map(convertEventToCalendarEvent),
+  callbacks: {
+    onEventClick: (e) => {
+      openModal(e as unknown as Event)
     },
-    {
-      id: 2,
-      title: 'Event 2',
-      start: '2023-12-20 12:00',
-      end: '2023-12-20 13:00',
-    },
-    {
-      id: 3,
-      title: 'Event 2',
-      start: '2023-12-20 13:00',
-      end: '2023-12-20 14:00',
-    },
-  ]
+    onRangeUpdate({ start, end }) {
+      // Fetch events for the new range
+      fetchEvents(new Date(start).toISOString(), new Date(end).toISOString());
+    }
+  }
 });
+
+const fetchEvents = async (start: string, end: string) => {
+  const events = await $fetch<Event[]>('/api/events', {
+    query: { start, end }
+  });
+
+  for (const event of events) {
+    if (calendarApp.events.get(event.id)) continue;
+    calendarApp.events.add(convertEventToCalendarEvent(event));
+  }
+}
 
 const openModal = (e: Event) => {
   modal.value = true;
@@ -55,7 +64,7 @@ const closeModal = () => {
 </script>
 
 <template>
-  <Calendar :calendar-app="calendarApp" @event-clicked="openModal" />
+  <Calendar :calendar-app="calendarApp" />
   <v-dialog v-model="modal" @vue-unmounted="closeModal">
     <v-container class="fill-height">
       <v-row align="center" justify="center">
