@@ -79,7 +79,9 @@ const getFullColsOrProvided = (cols: number | string) => {
 }
 
 const createEvent = async () => {
-  if (!(await form.value?.validate())) return;
+  const { valid } = await form.value?.validate();
+
+  if (!valid) return;
 
   loading.value = true;
 
