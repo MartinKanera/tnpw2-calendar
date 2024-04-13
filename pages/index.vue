@@ -12,6 +12,7 @@ definePageMeta({
   middleware: "auth",
 });
 
+const displayCreateButton = ref(false);
 const isEditDialogOpen = ref(false);
 const isCreateDialogOpen = ref(false);
 const event = ref({} as Omit<Event, 'userId' | 'allDay'>);
@@ -32,6 +33,7 @@ const calendarApp = createCalendar({
 });
 
 onMounted(() => {
+  displayCreateButton.value = true;
   // Monday this week
   const weekStart = new Date();
   weekStart.setDate(weekStart.getDate() - weekStart.getDay() + 1);
@@ -76,7 +78,7 @@ const eventDeleted = (eventId: string) => {
 
 <template>
   <Calendar :calendar-app="calendarApp" />
-  <v-fab color="primary" app icon="mdi-plus" size="large" @click="openCreateDialog"></v-fab>
+  <v-fab color="primary" app icon="mdi-plus" size="large" @click="openCreateDialog" :active="displayCreateButton"></v-fab>
   <EditDialog v-model="isEditDialogOpen" :event="event" @delete="eventDeleted" />
   <CreateDialog v-model="isCreateDialogOpen" @create="eventCreated" />
 </template>
