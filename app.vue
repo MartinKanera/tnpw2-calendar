@@ -9,7 +9,7 @@
     <v-app-bar app v-if="isAuthenticated">
       <v-spacer />
       <span class="mr-4 text-subtitle-1">@{{ session?.user.username }}</span>
-      <v-btn @click="signOut" icon="mdi-logout" variant="tonal" color="#d0bcff"/>
+      <v-btn @click="signOut" icon="mdi-logout" variant="tonal" color="primary"/>
     </v-app-bar>
     <v-main :style="{ paddingTop: isAuthenticated ? '64px' : 0, paddingBottom: '40px' }">
       <NuxtLayout>

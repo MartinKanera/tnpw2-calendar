@@ -13,7 +13,7 @@ definePageMeta({
 });
 
 const isEditDialogOpen = ref(false);
-const isCreateDialogOpen = ref(true);
+const isCreateDialogOpen = ref(false);
 const event = ref({} as Omit<Event, 'userId' | 'allDay'>);
 
 const calendarApp = createCalendar({
@@ -22,7 +22,7 @@ const calendarApp = createCalendar({
   defaultView: viewWeek.name,
   callbacks: {
     onEventClick: (e) => {
-      openModal(e as unknown as Event)
+      openEditDialog(e as unknown as Event)
     },
     onRangeUpdate({ start, end }) {
       // Fetch events for the new range
@@ -32,9 +32,17 @@ const calendarApp = createCalendar({
 });
 
 onMounted(() => {
-  const weekStart = new Date(new Date().setDate(new Date().getDate() - new Date().getDay())).toISOString();
-  const weekEnd = new Date(new Date().setDate(new Date().getDate() + (6 - new Date().getDay()))).toISOString();
-  fetchEvents(weekStart, weekEnd);
+  // Monday this week
+  const weekStart = new Date();
+  weekStart.setDate(weekStart.getDate() - weekStart.getDay() + 1);
+  weekStart.setHours(0, 0, 0, 0);
+
+  // Sunday this week
+  const weekEnd = new Date(weekStart);
+  weekEnd.setDate(weekEnd.getDate() + 6);
+  weekEnd.setHours(23, 59, 59, 999);
+
+  fetchEvents(weekStart.toISOString(), weekEnd.toISOString());
 });
 
 const fetchEvents = async (start: string, end: string) => {
@@ -48,9 +56,17 @@ const fetchEvents = async (start: string, end: string) => {
   }
 }
 
-const openModal = (e: Omit<Event, 'userId' | 'allDay'>) => {
+const openCreateDialog = () => {
+  isCreateDialogOpen.value = true;
+}
+
+const openEditDialog = (e: Omit<Event, 'userId' | 'allDay'>) => {
   isEditDialogOpen.value = true;
   event.value = e;
+}
+
+const eventCreated = (e: Event) => {
+  calendarApp.events.add(convertEventToCalendarEvent(e));
 }
 
 const eventDeleted = (eventId: string) => {
@@ -60,6 +76,7 @@ const eventDeleted = (eventId: string) => {
 
 <template>
   <Calendar :calendar-app="calendarApp" />
+  <v-fab color="primary" app icon="mdi-plus" size="large" @click="openCreateDialog"></v-fab>
   <EditDialog v-model="isEditDialogOpen" :event="event" @delete="eventDeleted" />
-  <CreateDialog v-model="isCreateDialogOpen" />
+  <CreateDialog v-model="isCreateDialogOpen" @create="eventCreated" />
 </template>

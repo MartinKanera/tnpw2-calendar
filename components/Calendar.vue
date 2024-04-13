@@ -18,4 +18,8 @@ const { calendarApp } = defineProps<{ calendarApp: CalendarApp }>();
 .sx__date-picker-popup {
   overflow: auto;
 }
+
+.sx__time-grid-event {
+  min-height: 40px;
+}
 </style>

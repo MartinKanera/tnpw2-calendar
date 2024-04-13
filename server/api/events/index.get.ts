@@ -45,7 +45,7 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  return await prisma.event.findMany({
+  return prisma.event.findMany({
     where: {
       userId: session.user.id,
       AND: [
