@@ -1,75 +1,34 @@
-# Nuxt 3 Minimal Starter
-
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+# TNPW2 Project - Calendar
 
 ## Setup
 
 Make sure to install the dependencies:
 
 ```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
 yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
+Provide .env file
+```
+DATABASE_URL="mongodb://127.0.0.1:27017/<database>?replicaSet=rs0"
+AUTH_URL="http://localhost:3000"
+AUTH_SECRET="<AUTH_SECRET>"
+```
 
-Start the development server on `http://localhost:3000`:
+MongoDB
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
+docker compose up
 ```
 
-## Production
+## Development
 
-Build the application for production:
+Initialize the database and start the development server on `http://localhost:3000`:
 
 ```bash
-# npm
-npm run build
+# Set up database and seed it
+yarn run prisma:dev
 
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+# Start Nuxt application
+yarn run dev
 ```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
