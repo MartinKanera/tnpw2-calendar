@@ -79,8 +79,11 @@ const updateEvent = async () => {
       endDate = startDate;
     }
 
-    const start = new Date(`${startDate}T${startTime}`);
-    const end = new Date(`${endDate}T${endTime}`);
+    const startString = `${startDate}` + (!startTime ? '' : `T${startTime}`);
+    const endString = `${endDate}` + (!endTime ? '' : `T${endTime}`);
+
+    let start = new Date(startString);
+    let end = new Date(endString);
 
     const eventResult = await $fetch<Event>(`/api/events/${event.id}`, { 
       method: 'patch',
