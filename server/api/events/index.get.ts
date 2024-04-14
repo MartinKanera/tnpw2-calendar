@@ -31,7 +31,7 @@ export default defineEventHandler(async (event) => {
   }
 
   if (!start && !end) {
-    return await prisma.event.findMany({
+    return prisma.event.findMany({
       where: {
         userId: session.user.id
       }
@@ -50,12 +50,12 @@ export default defineEventHandler(async (event) => {
       userId: session.user.id,
       AND: [
         {
-          start: { gte: new Date(start) }
+          start: { lte: new Date(end) } // Event starts before or when the window ends
         },
         {
-          end: { lte: new Date(end) }
+          end: { gte: new Date(start) } // Event ends after or when the window starts
         }
-      ].filter(Boolean)
+      ]
     }
   });
 });
