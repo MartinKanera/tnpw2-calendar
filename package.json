@@ -10,8 +10,8 @@
     "postinstall": "nuxt prepare",
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push",
-    "prisma:dev": "yarn run prisma:generate && yarn run prisma:push",
-    "prisma:init-db": "prisma db push --force-reset && prisma db seed"
+    "prisma:dev": "yarn run prisma:generate && yarn run prisma:reset",
+    "prisma:reset": "prisma db push --force-reset && prisma db seed"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
