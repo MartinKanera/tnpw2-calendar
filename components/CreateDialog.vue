@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Event } from '@prisma/client';
 import type { VueElement } from 'vue';
-import { fromISOString, timeFromISOString } from '~/utils/iso-string-convertor';
+import { fromISOString, timeFromISOString, dateRoundedToNearestMinutes } from '~/utils/time';
 
 type CreateEvent = {
   title: string;
@@ -31,12 +31,15 @@ const startTimeRules = [
 
 const endDateRules = [
   (v: string) => !!v || 'End Date is required',
-  (v: string) => v >= event.startDate || 'End Date must be after Start Date'
+  (v: string) => {
+    const startDate = new Date(event.startDate);
+    const endDate = new Date(v);
+    return endDate >= startDate || 'End Date must be after Start Date';
+  }
 ];
 
 const endTimeRules = [
   (v: string) => !!v || 'End Time is required',
-  (v: string) => v >= event.startTime || 'End Time must be after Start Time'
 ]
 
 watch(open, (value) => {
@@ -52,11 +55,6 @@ const emit = defineEmits<{
   (e: 'create',  event: Event): void;
 }>();
 
-const timeRoundedToNearest = (t = 15, fn = Math.floor) => {
-  const coeff = 1000 * 60 * t;
-  return new Date(fn(new Date().getTime() / coeff) * coeff);
-}
-
 const event = reactive({} as CreateEvent);
 
 const loading = ref(false);
@@ -65,8 +63,8 @@ const resetEvent = () => {
   event.title = '';
   event.startDate = fromISOString(new Date().toISOString(), true);
   event.endDate = fromISOString(new Date().toISOString(), true);
-  event.startTime = timeFromISOString(timeRoundedToNearest().toISOString());
-  event.endTime = timeFromISOString(timeRoundedToNearest(30, Math.ceil).toISOString());
+  event.startTime = timeFromISOString(dateRoundedToNearestMinutes().toISOString());
+  event.endTime = timeFromISOString(dateRoundedToNearestMinutes(30, Math.ceil).toISOString());
   event.allDay = false;
 }
 
@@ -166,7 +164,7 @@ const createEvent = async () => {
         </v-row>
         <v-row>
           <v-col cols="12" md="6">
-            <v-btn type="submit" block color="primary" @click.prevent="createEvent" :loading="loading">Create</v-btn>
+            <v-btn type="submit" block color="primary" @click.prevent="createEvent" :loading="loading">Save</v-btn>
           </v-col>
           <v-col cols="12" md="6">
             <v-btn block color="default" variant="outlined" @click="closeDialog" :disabled="loading">Cancel</v-btn>
