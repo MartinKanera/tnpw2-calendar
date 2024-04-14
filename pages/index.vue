@@ -92,7 +92,9 @@ const eventDeleted = (eventId: string) => {
 
 <template>
   <Calendar :calendar-app="calendarApp" />
-  <v-fab color="primary" app icon="mdi-plus" size="large" @click="openCreateDialog" :active="displayCreateButton"></v-fab>
+  <ClientOnly>
+    <v-fab location="bottom" color="primary" app icon="mdi-plus" size="large" @click="openCreateDialog" :active="displayCreateButton"></v-fab>
+  </ClientOnly>
   <EditDialog v-model="isEditDialogOpen" :event="event" @update="eventUpdated" @delete="eventDeleted" />
   <CreateDialog v-model="isCreateDialogOpen" @create="eventCreated" />
 </template>

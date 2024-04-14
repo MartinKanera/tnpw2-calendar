@@ -11,12 +11,14 @@
       <span class="mr-4 text-subtitle-1">@{{ session?.user.username }}</span>
       <v-btn @click="signOut" icon="mdi-logout" variant="tonal" color="primary"/>
     </v-app-bar>
-    <v-main :style="{ paddingTop: isAuthenticated ? '64px' : 0, paddingBottom: '40px' }">
+    <v-main :style="{ paddingTop: isAuthenticated ? '64px' : 0, paddingBottom: '40px' }" scrollable>
       <NuxtLayout>
         <NuxtPage />
       </NuxtLayout>
     </v-main>
-    <v-footer app class="d-flex flex-column w-100">Studentský zápočtový projekt</v-footer>
+    <ClientOnly>
+      <v-footer app class="d-flex flex-column w-100">Studentský zápočtový projekt</v-footer>
+    </ClientOnly>
   </v-app>
 </template>
 
