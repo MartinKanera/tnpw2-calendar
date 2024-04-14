@@ -36,3 +36,16 @@ export const dateRoundedToNearestMinutes = (m = 15, fn = Math.floor) => {
 export const timeRoundedToNearestMinutes = (m = 15, fn = Math.floor) => {
   return timeFromISOString(dateRoundedToNearestMinutes(m, fn).toISOString());
 }
+
+export const getMondayNow = () => {
+  const date = new Date();
+  const day = date.getDay();
+  const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+  const monday = new Date(date.setDate(diff));
+  return new Date(monday.setHours(0, 0, 0, 0));
+}
+
+export const getSundayNow = () => {
+  const sunday = new Date(getMondayNow().setDate(getMondayNow().getDate() + 6));
+  return new Date(sunday.setHours(23, 59, 59, 999));
+}

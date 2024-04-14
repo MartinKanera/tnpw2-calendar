@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Event } from '@prisma/client';
-import { convertEventToCalendarEvent } from '~/utils/time';
+import { convertEventToCalendarEvent, getMondayNow, getSundayNow } from '~/utils/time';
 import {
   createCalendar,
   viewDay,
@@ -43,17 +43,7 @@ const calendarApp = createCalendar({
 
 onMounted(() => {
   displayCreateButton.value = true;
-  // Monday this week
-  const weekStart = new Date();
-  weekStart.setDate(weekStart.getDate() - weekStart.getDay() + 1);
-  weekStart.setHours(0, 0, 0, 0);
-
-  // Sunday this week
-  const weekEnd = new Date(weekStart);
-  weekEnd.setDate(weekEnd.getDate() + 6);
-  weekEnd.setHours(23, 59, 59, 999);
-
-  fetchEvents(weekStart.toISOString(), weekEnd.toISOString());
+  fetchEvents(getMondayNow().toISOString(), getSundayNow().toISOString());
 });
 
 const fetchEvents = async (start: string, end: string) => {
