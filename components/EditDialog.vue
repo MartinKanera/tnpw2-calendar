@@ -75,10 +75,7 @@ const updateEvent = async () => {
   try {
     let { title, startDate, endDate, startTime, endTime, allDay } = event;
 
-    if (allDay) {
-      startTime = '00:00';
-      endTime = '23:59';
-    } else {
+    if (!allDay) {
       endDate = startDate;
     }
 
@@ -132,6 +129,14 @@ const endDateRules = [
 
 const endTimeRules = [
   (v: string) => !!v || 'End Time is required',
+  (v: string) => {
+    if (event.allDay) return true;
+
+    const startTime = new Date(`${event.startDate}T${event.startTime}`);
+    const endTime = new Date(`${event.startDate}T${v}`);
+
+    return endTime > startTime || 'End Time must be after Start Time';
+  }
 ]
 </script>
 

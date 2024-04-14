@@ -44,10 +44,25 @@ export default eventHandler(async (event) => {
     });
   }
 
-  const { title, allDay, start, end } = await useValidatedBody(
+  const { title, allDay, ...range } = await useValidatedBody(
     event,
     EventSchema
   );
+
+  const start = new Date(range.start);
+  const end = new Date(range.end);
+
+  if (allDay) {
+    start.setHours(0, 0, 0, 0);
+    end.setHours(23, 59, 59, 999);
+  }
+
+  if (start > end) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: "Invalid date range"
+    });
+  }
 
   return prisma.event.update({
     where: { 
