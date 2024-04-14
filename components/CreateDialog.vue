@@ -16,32 +16,6 @@ const open = defineModel<boolean>();
 const snackbar = reactive({ show: false, text: '', color: '' });
 const form = ref<VueElement & { validate: () => Promise<any> } | null>(null);
 
-const titleRules = [
-  (v: string) => !!v.trim() || 'Title is required',
-  (v: string) => v.trim().length <= 64 || 'Title must be at most 64 characters'
-];
-
-const startDateRules = [
-  (v: string) => !!v || 'Date is required'
-];
-
-const startTimeRules = [
-  (v: string) => !!v || 'Time is required'
-];
-
-const endDateRules = [
-  (v: string) => !!v || 'End Date is required',
-  (v: string) => {
-    const startDate = new Date(event.startDate);
-    const endDate = new Date(v);
-    return endDate >= startDate || 'End Date must be after Start Date';
-  }
-];
-
-const endTimeRules = [
-  (v: string) => !!v || 'End Time is required',
-]
-
 watch(open, (value) => {
   // TODO Test if works
   if (value) resetEvent();
@@ -86,11 +60,7 @@ const createEvent = async () => {
   try {
     let { title, startDate, endDate, startTime, endTime, allDay } = event;
 
-    // If allDay is true, set the start time to 00:00 and end time to 23:59
-    if (allDay) {
-      startTime = '00:00';
-      endTime = '23:59';
-    } else {
+    if (!allDay) {
       // If event is not all day, set the end date to start date
       endDate = startDate;
     }
@@ -120,6 +90,40 @@ const createEvent = async () => {
     snackbar.show = true;
   }
 }
+
+const titleRules = [
+  (v: string) => !!v.trim() || 'Title is required',
+  (v: string) => v.trim().length <= 64 || 'Title must be at most 64 characters'
+];
+
+const startDateRules = [
+  (v: string) => !!v || 'Date is required'
+];
+
+const startTimeRules = [
+  (v: string) => !!v || 'Time is required'
+];
+
+const endDateRules = [
+  (v: string) => !!v || 'End Date is required',
+  (v: string) => {
+    const startDate = new Date(event.startDate);
+    const endDate = new Date(v);
+    return endDate >= startDate || 'End Date must be after Start Date';
+  }
+];
+
+const endTimeRules = [
+  (v: string) => !!v || 'End Time is required',
+  (v: string) => {
+    if (event.allDay) return true;
+
+    const startTime = new Date(`${event.startDate}T${event.startTime}`);
+    const endTime = new Date(`${event.startDate}T${v}`);
+
+    return endTime > startTime || 'End Time must be after Start Time';
+  }
+]
 </script>
 
 <template>
